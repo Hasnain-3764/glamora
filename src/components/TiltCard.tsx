@@ -1,8 +1,10 @@
 import { useRef } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import useMobileLayout from "../hooks/useMobileLayout";
 
 export default function TiltCard({ children, className = "" }: { children: React.ReactNode, className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
+  const { shouldReduceEffects } = useMobileLayout();
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -33,6 +35,10 @@ export default function TiltCard({ children, className = "" }: { children: React
     x.set(0);
     y.set(0);
   };
+
+  if (shouldReduceEffects) {
+    return <div className={className}>{children}</div>;
+  }
 
   return (
     <motion.div

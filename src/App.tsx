@@ -12,12 +12,15 @@ import Footer from './components/Footer';
 import Cursor from './components/Cursor';
 import AmbientBackground from './components/AmbientBackground';
 import AtmosphericTransition from './components/AtmosphericTransition';
+import useMobileLayout from './hooks/useMobileLayout';
 
 function App() {
+  const { shouldReduceEffects } = useMobileLayout();
+
   return (
     <div className="relative isolate min-h-screen overflow-hidden bg-background text-foreground font-sans selection:bg-secondary selection:text-white">
       <AmbientBackground />
-      <Cursor />
+      {!shouldReduceEffects && <Cursor />}
       <Navbar />
       <main className="relative z-10">
         <Hero />

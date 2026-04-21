@@ -28,6 +28,16 @@
   }
 }
 
+@media (max-width: 767px) {
+  html {
+    scroll-padding-top: 76px;
+  }
+
+  body {
+    background-attachment: scroll;
+  }
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

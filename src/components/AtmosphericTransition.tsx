@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { useRef } from 'react';
+import useMobileLayout from '../hooks/useMobileLayout';
 
 const PARTICLES = Array.from({ length: 28 }, (_, i) => ({
   id: i,
@@ -15,6 +16,7 @@ const WORDS = ["Style.", "Speed.", "Confidence.", "Glamora."];
 
 export default function AtmosphericTransition() {
   const ref = useRef<HTMLElement>(null);
+  const { isMobileLayout, shouldReduceEffects } = useMobileLayout();
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -30,10 +32,40 @@ export default function AtmosphericTransition() {
   const opacity  = useTransform(smoothProgress, [0, 0.15, 0.8, 1], [0, 1, 1, 0]);
   const scale    = useTransform(smoothProgress, [0, 0.2], [0.95, 1]);
 
+  if (shouldReduceEffects) {
+    return (
+      <section
+        ref={ref}
+        className="relative flex min-h-[420px] items-center justify-center overflow-hidden bg-[#0d0d0d] px-6 py-20 sm:min-h-[500px]"
+      >
+        <div className="absolute inset-0">
+          <img
+            src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=1600&q=80"
+            alt="Fashion atmosphere"
+            className="h-full w-full object-cover opacity-35"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/45 to-black/75" />
+          <div className="absolute inset-x-0 top-[18%] mx-auto h-40 w-40 rounded-full bg-primary/20 blur-[88px]" />
+        </div>
+        <div className="relative z-10 text-center">
+          <p className="mb-6 text-xs font-medium uppercase tracking-[0.3em] text-primary sm:text-sm">
+            The Glamora Experience
+          </p>
+          <h2 className="mx-auto max-w-4xl text-4xl font-heading font-bold leading-tight text-white sm:text-5xl md:text-6xl">
+            Style. Speed. Confidence. <span className="font-light italic text-primary">Glamora.</span>
+          </h2>
+          <p className="mx-auto mt-6 max-w-xl text-base font-light leading-relaxed text-white/70 sm:text-lg">
+            Walk in. Get styled. Step out luminous in under two hours.
+          </p>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section
       ref={ref}
-      className="relative h-[90vh] min-h-[600px] overflow-hidden flex items-center justify-center bg-[#0d0d0d]"
+      className={`relative flex items-center justify-center overflow-hidden bg-[#0d0d0d] ${isMobileLayout ? 'h-[80vh] min-h-[520px]' : 'h-[90vh] min-h-[600px]'}`}
     >
       {/* ── Layer 1: cinematic background image ── */}
       <motion.div

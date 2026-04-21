@@ -1,6 +1,18 @@
 import { motion } from 'framer-motion';
+import useMobileLayout from '../hooks/useMobileLayout';
 
 export default function AmbientBackground() {
+  const { shouldReduceEffects } = useMobileLayout();
+
+  if (shouldReduceEffects) {
+    return (
+      <div className="fixed inset-0 z-[-1] overflow-hidden bg-background pointer-events-none">
+        <div className="absolute -top-[10%] left-[-15%] h-[60vw] w-[60vw] rounded-full bg-primary/8 blur-[80px]" />
+        <div className="absolute bottom-[-10%] right-[-20%] h-[55vw] w-[55vw] rounded-full bg-secondary/8 blur-[72px]" />
+      </div>
+    );
+  }
+
   return (
     <div className="fixed inset-0 z-[-1] overflow-hidden bg-background pointer-events-none">
       <motion.div 
